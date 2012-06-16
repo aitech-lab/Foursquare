@@ -41,11 +41,11 @@ def on_callback():
         print resp.status, resp.reason
         d = json.loads(resp.read())
         token = d['access_token']
-        f = open("tokens.txt", "a")
-        f.write(token+"\n")
+        f = open("token.py", "w")
+        f.write("token = \""+token+"\"\n")
         f.close()
 
-        return token
+        return "token \""+token+"\" was written to token.py"
         
 webbrowser.open("http://localhost:8515")
 run(host='localhost', port=8515, reloader=True)
