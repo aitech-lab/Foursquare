@@ -35,8 +35,6 @@ for lat in drange(S, N, dlat) :
 
 def foursquareThread(keys) :
     # DOC: https://developer.foursquare.com/docs/venues/search
-    # https://api.foursquare.com/v2/venues/search?client_id=FPYUMI2QZ5LQHGCV3JR3BL0MLD04M4OTDKVQSFBL5EX5N0RH&client_secret=KQW5NWN5QF1R0YU4JALI3S2TTPV50NZZHTPWLJXA2AIZO4US&ll=55.727833,37.606804&intent=checkin
-    # https://api.foursquare.com/v2/venues/search?client_id=FPYUMI2QZ5LQHGCV3JR3BL0MLD04M4OTDKVQSFBL5EX5N0RH&client_secret=KQW5NWN5QF1R0YU4JALI3S2TTPV50NZZHTPWLJXA2AIZO4US&v=20120601&limit=100&intent=browse&ne=55.9238935665,37.885192315&sw=55.952114697,37.9036303945
     
     while(len(sectors)):
         
