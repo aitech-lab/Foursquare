@@ -42,20 +42,29 @@ def foursquareThread(keys) :
         
         lat = s[0]
         lng = s[1]
-        conn = httplib.HTTPSConnection("api.foursquare.com")
-        conn.set_debuglevel(3)
-        conn.request("GET",          
-            "/v2/venues/search" +
-            "?client_id="       + str(keys[0]) + 
-            "&client_secret="   + str(keys[1]) +    
-            "&v=20120601"       +
-            "&limit=100"        +
-            "&intent=browse"    +
-            "&ne="              +str(lat     )+ "," +str(lng     )+
-            "&sw="              +str(lat+dlat)+ "," +str(lng+dlng))
-        resp = conn.getresponse()
-        print resp.status
-        if(resp.status == 500) : break
+        for trycount in range(0, 5) :
+            conn = httplib.HTTPSConnection("api.foursquare.com")
+            conn.set_debuglevel(3)
+            conn.request("GET",          
+                "/v2/venues/search" +
+                "?client_id="       + str(keys[0]) + 
+                "&client_secret="   + str(keys[1]) +    
+                "&v=20120601"       +
+                "&limit=100"        +
+                "&intent=browse"    +
+                "&ne="              +str(lat     )+ "," +str(lng     )+
+                "&sw="              +str(lat+dlat)+ "," +str(lng+dlng))
+            resp = conn.getresponse()
+            if (resp != 200) : 
+                print resp.status
+            
+                if(resp.status == 400) :
+                    sectors.append(s)    
+                    sleep(60)
+                    print "try", trycount
+                    continue
+            break
+            
         d = json.loads(resp.read())
         
         threadLock.acquire()
