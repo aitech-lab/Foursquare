@@ -4,6 +4,7 @@
 //--------------------------------------------------------------
 void testApp::setup(){
 	
+	ofSetWindowTitle("Ailove-Foursquare");
 	ofFile   csvf = ofFile("test-data.csv");
 	ofBuffer csvb = csvf.readToBuffer();
 	minTimestamp = INT_MAX*2;
