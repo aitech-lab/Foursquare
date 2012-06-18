@@ -18,5 +18,26 @@ class testApp : public ofBaseApp{
 		void windowResized(int w, int h);
 		void dragEvent(ofDragInfo dragInfo);
 		void gotMessage(ofMessage msg);
+
+		struct Checkin {
+			unsigned int timestamp;
+			double       lat;
+			double       lng;
+		};
+
+		struct checkin_less {
+			bool operator ()(Checkin const& a, Checkin const& b) const {
+				if (a.timestamp < b.timestamp) return true;
+				if (a.timestamp > b.timestamp) return false;
+				return false;
+			}
+		};
+
+		vector<Checkin> checkins;
+
+		ofRectangle cityArea;
+		unsigned int minTimestamp;
+		unsigned int maxTimestamp;
+
 		
 };
