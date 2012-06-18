@@ -53,27 +53,52 @@ void testApp::draw(){
 	float widthscale  = (float) cityArea.width  / sw;
 	float heightscale = (float) cityArea.height / sh;
 	float mt          =  mx * timescale;
+	
+	ofPath p;
+	p.setFilled(false);
+	ofEnableAlphaBlending();
 
-	vector<ofPoint> pathPoints;
 	for(int i=0; i<checkins.size(); i++) {
 		Checkin& checkin = checkins.at(i);
 		int x = (checkin.lat-cityArea.x)/widthscale  ;
-		int y = (checkin.lng-cityArea.y)/heightscale;
-		pathPoints.push_back(ofPoint(x,y));
+		int y = sh-(checkin.lng-cityArea.y)/heightscale;
 		
 		int tx = (float) (checkin.timestamp-minTimestamp) / timescale;
-		ofLine(tx, sh, tx, sh-20);
-		ofLine(x-5, y  , x+5, y  );
-		ofLine(x  , y-5, x  , y+5);
+		float x2 = (tx-mx)*(tx-mx);
+		float dt = exp(-x2/4000.0);
+		float dx = exp(-x2/8000.0);
+
+		ofColor c(0x40 + 0xC0*dt, 0x80 + 0x7F*dx, 0xFF - 0xC0*dt, 0x00 + 0xFF*dx); 
+		
+		ofSetColor(c);
+		ofCircle(x, y, 3+25*dt);
+
+		if (dx > 0.95) {
+			p.setColor(c);
+			p.curveTo(x,y);
+		}
+		
+		if (dx >= 0.95) {
+			time_t ts = checkin.timestamp;
+			ofDrawBitmapString(ctime(&ts), x, y);
+		}
+		ofNoFill();
+		
+		c.a = 255;
+		ofSetColor(c);
+		ofLine(x-5, y  , x+4, y  );
+		ofLine(x  , y-4, x  , y+5);
+		ofLine(tx+dx*(tx-mx), sh, tx+dx*(tx-mx), sh-20-30*dt);
+		
 	}
+	
+	p.draw();
 
-	ofEnableAlphaBlending();
-	ofSetHexColor(0x7FFFFFFF);
-	ofPolyline path(pathPoints);
-	path.draw();
-
-	ofLine(mx, sh, mx, sh-40);
-	ofDrawBitmapString(ofToString((int)mt), mx, sh-30);
+	ofSetColor(0xFF, 0xFF, 0xFF, 0x80);
+	time_t t = mt + minTimestamp;
+	ofLine(mx, sh, mx, sh-70);
+	ofSetColor(255);
+	ofDrawBitmapString(ctime(&t), mx, sh-60);
 }
 
 //--------------------------------------------------------------
