@@ -1,15 +1,15 @@
 import webbrowser
 import httplib
 import bottle
-import client
+import clients
 import simplejson as json
 from bottle import route, post, run, request
 
 bottle.debug(True)
 
 CONFIG = {
-    'client_id'    : client.client_id,
-    'client_secret': client.client_secret,
+    'client_id'    : clients.clients[0][0],
+    'client_secret': clients.clients[0][1],
     'redirect_uri' : 'http://localhost:8515/oauth_callback'
 }
 

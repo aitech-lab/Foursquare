@@ -14,6 +14,8 @@
 tmp/
 token.py
 client.py
+tokens.py
+clients.py
 *.sdf
 *.suo
 obj/
