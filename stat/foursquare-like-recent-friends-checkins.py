@@ -40,9 +40,19 @@ while 1 :
 
             print cid, uid, " "*(8-len(uid)), vid, lat, " "*(13-len(lat)), lng, " "*(13-len(lng)), utm  
             if cid not in checkins :
-                file.write("%s, %s, %s, %s, %s, %s\n" % (cid, uid, vid, lat, lng, utm))
                 checkins.append(cid)
-
+                print "LIKE CHECKIN", cid
+                conn = httplib.HTTPSConnection("api.foursquare.com");
+                conn.request("POST",
+                    "/v2/checkins/%s/like"
+                    "?oauth_token=%s"
+                    "&v=20120609"
+                    "&locale=rf"
+                    "&set=true"
+                     % (cid,tokens.tokens[1]))
+                resp = conn.getresponse()
+                print resp.status, resp.reason
+    
     file.flush()
     # sleep 10 min
     print "sleeping 60sec"
