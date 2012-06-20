@@ -91,15 +91,18 @@ def getCheckins() :
         d = json.loads(resp.read())
         for c in d['response']['hereNow']['items'] :
             uid = int(c['user']['id'])
-            print uid, c['user']['relationship']
+	    
+            if "relationship" in c['user'] :
+                if (c['user']['relationship'] != "friend") :
+                    sendFriendRequest(uid)
+		print c['user']['relationship']
+            else:
+                print json.dumps(c)
 
             if(uid not in checkiners) :
                 print  "new checkiner ", uid
                 checkiners_file.write(str(uid) + "\n");
                 checkiners.append(uid)
-
-            if (c['user']['relationship'] != "friend") :
-                sendFriendRequest(uid)
     else :
         print resp.read()
 
