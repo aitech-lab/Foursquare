@@ -21,3 +21,4 @@ clients.py
 obj/
 ipch/
 bin/
+*.log
