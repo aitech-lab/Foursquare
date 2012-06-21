@@ -38,20 +38,6 @@ while 1 :
                     
                              
             break
-            #if(v['id'] not in checkin_ids) :
-            #    checkin_ids.add(v['id'])
-            #    checkin_file.write(v['id']+"\n")
-            #    conn.request("POST",
-            #        "/v2/checkins/add"
-            #        "?oauth_token=%s"
-            #       "&v=20120601"
-            #       "&venueId=%s"
-            #        "&broadcast=public,twitter,facebook"
-            #        % (token.token, v['id']))
-            #    resp = conn.getresponse()
-            #    print resp.status, resp.reason
-            #    d = resp.read();
-            #    # print d
     
     # sleep 10 min
     print "sleeping 15-60 min"
