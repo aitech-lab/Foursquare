@@ -7,6 +7,21 @@ import sys
 import simplejson as json
 
 token = ""
+debug = True
+
+
+
+def response(resp):
+    
+    if debug : print resp.status, resp.reason
+    
+    if (resp.status == 200) :
+        return json.loads(resp.read())
+    else:
+        if debug : print resp.read()
+        return False
+
+
 
 def venueHereNow(venueId, afterTimestamp="1262325600"):
 	
@@ -22,14 +37,8 @@ def venueHereNow(venueId, afterTimestamp="1262325600"):
         "&afterTimestamp=%s"
         % (str(venueId), token, str(afterTimestamp)))
          
-    resp = conn.getresponse()
-    print resp.status, resp.reason
-    
-    if (resp.status == 200) :
-        return json.loads(resp.read())
-    else :
-        return False
-
+    return response(conn.getresponse())
+   
 
 
 def venuesTrending(lat="55.757801", lng="37.620761", radius="2000"):
@@ -45,34 +54,23 @@ def venuesTrending(lat="55.757801", lng="37.620761", radius="2000"):
         "&limit=50"
         "&radius=%s"
          % (token, str(lat), str(lng), str(radius)))
-    resp = conn.getresponse()
-    print resp.status, resp.reason
-
-    if (resp.status == 200) :
-        return json.loads(resp.read())
-    else :
-        return False
-
+    
+    return response(conn.getresponse())
+   
 
 
 def sendFriendRequest(userId) : 
 
     print "[SEND FRIEND REQUEST TO %s]" % userId
     
-    if (uid not in friends) :
-        conn = httplib.HTTPSConnection("api.foursquare.com")
-        conn.request("POST", 
-            "/v2/users/%s/request"
-            "?oauth_token=%s" 
-            % (str(userId), token))
-        resp = conn.getresponse()
-        print resp.status, resp.reason
+    conn = httplib.HTTPSConnection("api.foursquare.com")
+    conn.request("POST", 
+        "/v2/users/%s/request"
+        "?oauth_token=%s" 
+        % (str(userId), token))
 
-        if (resp.status != 200) :
-            return json.loads(resp.read())
-        else:
-    	    return False
-
+    return response(conn.getresponse())
+   
 
    
 def getFriends() :
@@ -86,13 +84,8 @@ def getFriends() :
         % (tokens.tokens[1])
     
     conn.request("GET", url)   
-    resp = conn.getresponse()
-    
-    if (resp.status == 200) :
-        return json.loads(resp.read())
-    else:
-        return False
-    
+    return response(conn.getresponse())
+   
 
       
 def checkinsLike(checkinId):  
@@ -107,20 +100,14 @@ def checkinsLike(checkinId):
         "&locale=rf"
         "&set=true"
          % (checkinId, token))
-    resp = conn.getresponse()
-    print resp.status, resp.reason
- 
-    if (resp.status == 200) :
-        return json.loads(resp.read())
-    else:
-        return False
- 
-  
+    return response(conn.getresponse())
+   
+
     
 def checkinsRecent(afterTimestamp="1262325600"):
 
     print "[GET RECENT FRIENTDS CHECKINS]"
-	
+
     conn = httplib.HTTPSConnection("api.foursquare.com")
     conn.request("GET",
         "/v2/checkins/recent"
@@ -130,20 +117,14 @@ def checkinsRecent(afterTimestamp="1262325600"):
         "&afterTimestamp=%s"
          % (token, str(afterTimestamp)))
     
-    resp = conn.getresponse()
-    print resp.status, resp.reason
-    
-    if (resp.status == 200) :
-        return json.loads(resp.read())
-    else:
-        return False
-
+    return response(conn.getresponse())
+   
 
  
 def checkinsAddComment(checkinId, text):
 
     print "[ADD COMMENT '%s' TO CHECKIN %s]" % (text, checkinId)
-	
+
     conn = httplib.HTTPSConnection("api.foursquare.com")
     params = urllib.urlencode({
         "oauth_token" : token,
@@ -155,21 +136,14 @@ def checkinsAddComment(checkinId, text):
     
     conn.request("POST", "/v2/checkins/%s/addcomment" % str(checkinId), params, headers)
       
-    resp = conn.getresponse()
-    print resp.status, resp.reason
-    
-    if (resp.status == 200) :
-        return json.loads(resp.read())
-    else:
-        print resp.read()
-        return False
-        
+    return response(conn.getresponse())
 
- 
-def checkinsAdd(venueId, text='')
+   
+
+def checkinsAdd(venueId, text=''):
 
     print "[ADD CHECKIN AT '%s' AND SHOUT '%s']" % (venueId, text)
-	
+
     conn = httplib.HTTPSConnection("api.foursquare.com")
     conn.request("POST",
         "/v2/checkins/add"
@@ -178,6 +152,7 @@ def checkinsAdd(venueId, text='')
         "&venueId=%s"
         "&broadcast=public,twitter,facebook"
         "shout=%s"
-        % (token, venueId, urllib.urlencode(text.encode('utf-8')))
-    resp = conn.getresponse()
-    print resp.status, resp.reaso
+        % (token, venueId, urllib.urlencode(text.encode('utf-8'))))
+    return response(conn.getresponse())
+   
+    
