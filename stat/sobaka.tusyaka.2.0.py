@@ -37,6 +37,7 @@ def addRandomComment(checkinId, categoryId) :
         foursquare.checkinsAddComment(checkinId, randomComments[str(categoryId)][random.randint(0, len(randomComments)-1)])
     
 
+
 def checkFriendsCheckins(threadName="") :
     
     global recentTimestamp
