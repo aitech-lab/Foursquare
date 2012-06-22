@@ -90,7 +90,7 @@ def getFriends() :
       
 def checkinsLike(checkinId):  
     
-    print "[LIKE %s CHECKIN]", str(checkinId)
+    print "[LIKE %s CHECKIN]" % str(checkinId)
     
     conn = httplib.HTTPSConnection("api.foursquare.com");
     conn.request("POST",
