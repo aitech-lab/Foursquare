@@ -5,10 +5,10 @@ import thread
 import time
 import random
 import foursquare
-from tokens import ailoveToken as token
+from tokens import ailoveToken 
 
 
-foursquare.token = token
+foursquare.oauth_token = ailoveToken
 
 ailoveVenues = [
     "4eef4722a69d8afe6d089c5a", # кухня
