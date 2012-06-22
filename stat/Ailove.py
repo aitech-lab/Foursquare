@@ -5,7 +5,7 @@ import thread
 import time
 import random
 import foursquare
-from token import token
+from tokens import ailoveToken as token
 
 
 foursquare.token = token

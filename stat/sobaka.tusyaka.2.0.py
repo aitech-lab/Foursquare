@@ -7,12 +7,13 @@ sys.path.append('lib/python')
 
 import simplejson as json
 import time
-import token
+from tokens import dogToken as token
 import random
 import foursquare
 import thread
 
-foursquare.token = "YYVGOD3L1YAUHAMUQBBCN22UQMC1F1I51ZPRJFGX2ENMDDTR"
+
+foursquare.token = token
 
 lat, lng = "55.757801", "37.620761"
 recentTimestamp = str(int(time.time())-60*5) # 5 min 
