@@ -39,13 +39,13 @@ def collectFriendsCheckins(threadName="") :
                 ailoveStat.write(str(checkin))
                 
                 # 10% chance to like
-                if random.randint(0, 100) > 90 :
-                    foursquare.checkinsLike(checkin['id'])
+                # if random.randint(0, 100) > 90 :
+                #     foursquare.checkinsLike(checkin['id'])
                            
         friendsTimestamp = str(int(time.time()))
 
         print "sleeping 5 min"
-        time.sleep(300)
+        time.sleep(60)
 
 
 def checkAiloveVenues(threadName="") :
@@ -70,7 +70,7 @@ def checkAiloveVenues(threadName="") :
         timestamp = str(int(time.time()) - 30)
         
         # sleep 5 mins
-        time.sleep(60*10)
+        time.sleep(60)
       
 
 thread.start_new_thread( collectFriendsCheckins, ("thread1",))
