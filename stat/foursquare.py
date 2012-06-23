@@ -30,7 +30,7 @@ def venueHereNow(venueId, afterTimestamp="1262325600"):
     conn = httplib.HTTPSConnection("api.foursquare.com");
     conn.request("GET",
         "/v2/venues/%s/herenow"
-        "?oauth_oauth_token=%s"
+        "?oauth_token=%s"
         "&v=20120619"
         "&limit=500"
         "&offset=0"
@@ -48,7 +48,7 @@ def venuesTrending(lat="55.757801", lng="37.620761", radius="2000"):
     conn = httplib.HTTPSConnection("api.foursquare.com");
     conn.request("GET",
         "/v2/venues/trending"
-        "?oauth_oauth_token=%s"
+        "?oauth_token=%s"
         "&v=20120601"
         "&ll=%s,%s"
         "&limit=50"
@@ -66,7 +66,7 @@ def sendFriendRequest(userId) :
     conn = httplib.HTTPSConnection("api.foursquare.com")
     conn.request("POST", 
         "/v2/users/%s/request"
-        "?oauth_oauth_token=%s" 
+        "?oauth_token=%s" 
         % (str(userId), oauth_token))
 
     return response(conn.getresponse())
@@ -79,7 +79,7 @@ def getFriends() :
 
     conn = httplib.HTTPSConnection("api.foursquare.com");
     url = "/v2/users/self/friends"\
-        "?oauth_oauth_token=%s"\
+        "?oauth_token=%s"\
         "&v=20120619"\
         % (oauth_tokens.oauth_tokens[1])
     
@@ -95,7 +95,7 @@ def checkinsLike(checkinId):
     conn = httplib.HTTPSConnection("api.foursquare.com");
     conn.request("POST",
         "/v2/checkins/%s/like"
-        "?oauth_oauth_token=%s"
+        "?oauth_token=%s"
         "&v=20120609"
         "&locale=rf"
         "&set=true"
@@ -111,7 +111,7 @@ def checkinsRecent(afterTimestamp="1262325600"):
     conn = httplib.HTTPSConnection("api.foursquare.com")
     conn.request("GET",
         "/v2/checkins/recent"
-        "?oauth_oauth_token=%s"
+        "?oauth_token=%s"
         "&limit=100"
         "&v=20120619"
         "&afterTimestamp=%s"
@@ -127,7 +127,7 @@ def checkinsAddComment(checkinId, text):
 
     conn = httplib.HTTPSConnection("api.foursquare.com")
     params = urllib.urlencode({
-        "oauth_oauth_token" : oauth_token,
+        "oauth_token" : oauth_token,
         "v"           : 20120619,
         "text"        : text.encode('utf-8')})
     headers = {
@@ -147,7 +147,7 @@ def checkinsAdd(venueId, text=''):
     conn = httplib.HTTPSConnection("api.foursquare.com")
     conn.request("POST",
         "/v2/checkins/add"
-        "?oauth_oauth_token=%s"
+        "?oauth_token=%s"
         "&v=20120601"
         "&venueId=%s"
         "&broadcast=public,twitter,facebook"
