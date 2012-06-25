@@ -54,8 +54,8 @@ def checkFriendsCheckins(threadName="") :
                     checkinId  = str(checkin['id'])
                     categories = checkin['venue']['categories']
                     foursquare.checkinsLike(checkinId)
-                    if len(categories) > 0 :
-                        addRandomComment(checkinId, categories[0]['id'])
+                    # if len(categories) > 0 :
+                    #    addRandomComment(checkinId, categories[0]['id'])
                            
         recentTimestamp = str(int(time.time()))
 
