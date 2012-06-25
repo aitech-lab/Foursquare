@@ -1,6 +1,7 @@
 #!/usr/bin/python
 # coding=utf-8
 
+import sys
 import thread
 import time
 import random
@@ -33,17 +34,22 @@ def collectFriendsCheckins(threadName="") :
         print "[RECENT FRIENDS CHECKINS]"
         
         recent = foursquare.checkinsRecent(timestamp)
-        if recent :            
-            for checkin in recent['response']['recent'] :
-                print checkin['id'], checkin['user']['firstName'].encode('utf-8') 
-                ailoveStat.write(str(checkin))
+        try:
+            if recent :            
+                for checkin in recent['response']['recent'] :
+                    print checkin['id'], checkin['user']['firstName'].encode('utf-8') 
+                    ailoveStat.write(str(checkin))
                 
-                # 10% chance to like
-                # if random.randint(0, 100) > 90 :
-                #     foursquare.checkinsLike(checkin['id'])
-                           
+                    # 1% chance to like
+                    if random.randint(0, 100) == 33 :
+                        foursquare.checkinsLike(checkin['id'])
+        except Exception:
+            f = open("Ailove.Error.log", "a")
+            f.write(str(recent))
+            f.close()
+                   
         friendsTimestamp = str(int(time.time()))
-
+        sys.stdout.flush()
         print "sleeping 5 min"
         time.sleep(60)
 
@@ -59,16 +65,21 @@ def checkAiloveVenues(threadName="") :
         for venue in ailoveVenues :
             print "[VENUE %s]" % venue
             herenow = foursquare.venueHereNow(venue, timestamp)
-            if herenow :
-                print "here now", herenow['response']['hereNow']['count']
-                for item in herenow['response']['hereNow']['items']:
-                    print item['user']['id']
-                    print 'relationship' in item['user'] 
-                    if 'relationship' not in item['user'] :
-                        foursquare.sendFriendRequest(item['user']['id'])
-        
+            try:
+                if herenow :
+                    print "here now", herenow['response']['hereNow']['count']
+                    for item in herenow['response']['hereNow']['items']:
+                        print item['user']['id']
+                        print 'relationship' in item['user'] 
+                        if 'relationship' not in item['user'] :
+                            foursquare.sendFriendRequest(item['user']['id'])
+            except Exception:
+                f = open("Ailove.Error.log", "a")
+                f.write(str(herenow))
+                f.close()
+
         timestamp = str(int(time.time()) - 30)
-        
+        sys.stdout.flush()
         # sleep 5 mins
         time.sleep(60)
       

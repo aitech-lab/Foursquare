@@ -15,9 +15,11 @@ import thread
 
 foursquare.oauth_token = dogToken
 
-lat, lng = "55.757801", "37.620761"
+lat, lng        = "55.757801", "37.620761"
 recentTimestamp = str(int(time.time())-60*5) # 5 min 
-searchFriends = False
+searchFriends   = False
+startTime       = int(time.time())
+
 
 checkinedAlready = []
 randomComments = {
@@ -54,8 +56,8 @@ def checkFriendsCheckins(threadName="") :
                     checkinId  = str(checkin['id'])
                     categories = checkin['venue']['categories']
                     foursquare.checkinsLike(checkinId)
-                    # if len(categories) > 0 :
-                    #    addRandomComment(checkinId, categories[0]['id'])
+                    if len(categories) > 0 :
+                        addRandomComment(checkinId, categories[0]['id'])
                            
         recentTimestamp = str(int(time.time()))
 
@@ -67,6 +69,8 @@ def checkFriendsCheckins(threadName="") :
 def findNewPlaceToCheckin(threadName=""):
     
     global lat, lng
+    global checkinedAlready
+    global startTime
 
     while True:
         print "[FIND NEW PLACE CHECKINS]"
@@ -76,7 +80,7 @@ def findNewPlaceToCheckin(threadName=""):
             for venue in trending['response']['venues']:
                 lat = str(venue['location']['lat'])
                 lng = str(venue['location']['lng'])
-                print venue['id'], venue['hereNow']['count'], lat, lng, venue['name']
+                print venue['id'], venue['hereNow']['count'], lat, lng  
             
                 if venue['id'] not in checkinedAlready :
                 
@@ -94,8 +98,12 @@ def findNewPlaceToCheckin(threadName=""):
                                 foursquare.sendFriendRequest(item['user']['id'])
                                 break          
                     break # from venues 
-    
-   
+        
+        # reset day
+        if (int(time.time()) - startTime) > 60*60*24 :
+            checkinedAlready = []
+            startTime = int(time.time())
+
         print "sleeping 15-60 min"
         time.sleep(random.randint(300,1800))
 
