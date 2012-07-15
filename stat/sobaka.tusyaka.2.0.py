@@ -75,7 +75,11 @@ def findNewPlaceToCheckin(threadName=""):
     while True:
         print "[FIND NEW PLACE CHECKINS]"
         # SEARCHING TREND CHEKCIN AND FIENDING   
-        trending = foursquare.venuesTrending(lat, lng)
+        try:
+            trending = foursquare.venuesTrending(lat, lng)
+        except Exception:
+            trending = False
+        
         if trending:
             for venue in trending['response']['venues']:
                 lat = str(venue['location']['lat'])
